@@ -50,11 +50,11 @@ const Grid = ({users, setUsers, setOnEdit}) => {
     };
 
 //DELETAR NA TABELA
-    const handleDelete = async (id_cliente) => {
+    const handleDelete = async (CNPJ) => {
         await axios
-            .delete("http://localhost:8800/" + id_cliente)
+            .delete("http://localhost:8800/" + CNPJ)
             .then(({ data }) => {
-                const newArray = users.filter((user) => user.id_cliente !== id_cliente);
+                const newArray = users.filter((user) => user.CNPJ !== CNPJ);
                 
                 setUsers(newArray);
                 toast.success(data);
@@ -68,12 +68,25 @@ const Grid = ({users, setUsers, setOnEdit}) => {
         <Table>
             <Thead>
                 <Tr>
-                    <Th>id</Th>
+                    <Th>CNPJ / CPF</Th>
                     <Th>nome PJ/PF</Th>
                     <Th>valor</Th>
                     <Th>vencimento do boleto</Th>
+                </Tr>
+            </Thead>
+            <Tr></Tr>
+            <Tr></Tr>
+            <Tr></Tr>
+            <Thead>
+                <Tr>
                     <Th>endereço</Th>
-                    <Th>produtos</Th>
+                    <Th>Número</Th>
+                    <Th>bairro</Th>
+                    <Th>municipio</Th>
+                    <Th>UF</Th>
+                    <Th>CEP</Th>
+                    <Th></Th>
+                    <Th></Th>
                     <Th></Th>
                     <Th></Th>
                 </Tr>
@@ -81,18 +94,22 @@ const Grid = ({users, setUsers, setOnEdit}) => {
             <Tbody>
                 {users.map((item, i) => (
                     <Tr key={i}>
-                        <Td width="5%"> {item.id_cliente} </Td>
-                        <Td width="20%"> {item.nome_PJ_PF} </Td>
-                        <Td width="10%"> {item.valor} </Td>
-                        <Td width="15%"> {item.vencimento_boleto} </Td>
-                        <Td width="20%"> {item.endereco} </Td>
-                        <Td width="30%"> {item.produtos} </Td>
+                        <Td width="15%"> {item.CNPJ} </Td>
+                        <Td width="20%"> {item.xNome} </Td>
+                        <Td width="10%"> {item.vNF} </Td>
+                        <Td width="15%"> {item.dVenc} </Td>
+                        <Td width="30%"> {item.xLgr} </Td>
+                        <Td width="5%"> {item.nro} </Td>
+                        <Td width="10%"> {item.xBairro} </Td>
+                        <Td width="10%"> {item.xMun} </Td>
+                        <Td width="5%"> {item.UF} </Td>
+                        <Td width="20%"> {item.CEP} </Td>
 
                         <Td width="5%">
                             <FaEdit onClick={() => handleEdit(item)} />
                         </Td>
                         <Td  width="5%">
-                            <FaTrash onClick={() => handleDelete(item.id_cliente)} />
+                            <FaTrash onClick={() => handleDelete(item.CNPJ)} />
                         </Td>
                     </Tr>
                 ))}

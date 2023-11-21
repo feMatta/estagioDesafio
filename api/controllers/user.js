@@ -13,15 +13,19 @@ export const getUsers = (_, res) => {
 
 //ADD CLIENTE
 export const addUser = (req, res) => {
-    const q = "INSERT INTO cliente(`id_cliente`, `nome_PJ_PF`, `valor`, `vencimento_boleto`, `endereco`, `produtos`) VALUES(?, ?, ?, ?, ?, ?)";
+    const q = "INSERT INTO cliente(`CNPJ`, `xNome`, `vNF`, `dVenc`, `xLgr`, `nro`, `xBairro`, `xMun`, `UF`, `CEP`) VALUES(?)";
 
         const values = [
-            req.body.id_cliente,
-            req.body.nome_PJ_PF,
-            req.body.valor,
-            req.body.vencimento_boleto,
-            req.body.endereco,
-            req.body.produtos,
+            req.body.CNPJ,
+            req.body.xNome,
+            req.body.vNF,
+            req.body.dVenc,
+            req.body.xLgr,
+            req.body.nro,
+            req.body.xBairro,
+            req.body.xMun,
+            req.body.UF,
+            req.body.CEP,
         ];
 //FUNCÃO QUE RECEBE POSSVIEL ERRO OU SUCESSO
         db.query(q, [values], (err) => {
@@ -37,22 +41,26 @@ export const addUser = (req, res) => {
 //ATUALIZAR CLIENTE
 export const updateUser = (req, res) => {
     const q=
-        "UPDATE cliente SET `nome_PJ_PF` = ?, `valor` = ?, `vencimento_boleto` = ?, `endereco` = ?, `produtos` = ? WHERE `id_cliente` =?";
+        "UPDATE cliente SET `xNome` = ?, `vNF` = ?, `dVenc` = ?, `xLgr` = ?, `nro` = ?, `xBairro` = ?, `xMun` = ?, `UF` = ?, `CEP` = ? WHERE `CNPJ` =?";
    
     const values = [
-        req.body.nome_PJ_PF,
-        req.body.valor,
-        req.body.vencimento_boleto,
-        req.body.endereco,
-        req.body.produtos,
+        req.body.xNome,
+        req.body.vNF,
+        req.body.dVenc,
+        req.body.xLgr,
+        req.body.nro,
+        req.body.xBairro,
+        req.body.xMun,
+        req.body.UF,
+        req.body.CEP,
     ];
 //FUNCÃO QUE RECEBE POSSVIEL ERRO OU SUCESSO
-const { nome_PJ_PF, valor, vencimento_boleto, endereco, produtos } = req.body;
-if (!nome_PJ_PF || !valor || !vencimento_boleto || !endereco || !produtos) {
+const { xNome, vNF, dVenc, xLgr, nro, xBairro, xMun, UF, CEP } = req.body;
+if (!xNome || !vNF || !dVenc || !xLgr || !nro || !xBairro || !xMun || !UF || !CEP) {
     return res.status(400).json("Preencha todos os campos necessários.");
 }
 
-db.query(q, [...values, req.params.id_cliente], (err) => {
+db.query(q, [...values, req.params.CNPJ], (err) => {
     if (err) {
         console.error(err);
         return res.status(500).json("Erro ao atualizar usuário");
@@ -63,9 +71,9 @@ db.query(q, [...values, req.params.id_cliente], (err) => {
 };
 //DELETAR USUARIO
 export const deleteUser = (req, res) => {
-    const q= "DELETE FROM cliente WHERE `id_cliente` = ?";
+    const q= "DELETE FROM cliente WHERE `CNPJ` = ?";
 
-    db.query(q, [req.params.id_cliente], (err) => {
+    db.query(q, [req.params.CNPJ], (err) => {
         if (err) {
             console.error(err);
             return res.status(500).json("Erro ao excluir usuário");

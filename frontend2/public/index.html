@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <title>React App</title>
+  </head>
+  <body>
+    
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+  <body>
+    <form name="uploadForm">
+      <div>
+        <input id="uploadInput" type="file" multiple />
+        <label for="fileNum">Selected files:</label>
+        <output id="fileNum">0</output>;
+        <label for="fileSize">Total size:</label>
+        <output id="fileSize">0</output>
+      </div>
+      <div><input type="submit" value="Buscar dados" /></div>
+    </form>
+
+    <script>
+      const uploadInput = document.getElementById("uploadInput");
+      uploadInput.addEventListener(
+        "change",
+        () => {
+          // Calculate total size
+          let numberOfBytes = 0;
+          for (const file of uploadInput.files) {
+            numberOfBytes += file.size;
+          }
+
+          // Approximate to the closest prefixed unit
+          const units = [
+            "B",
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB",
+            "PiB",
+            "EiB",
+            "ZiB",
+            "YiB",
+          ];
+          const exponent = Math.min(
+            Math.floor(Math.log(numberOfBytes) / Math.log(1024)),
+            units.length - 1,
+          );
+          const approx = numberOfBytes / 1024 ** exponent;
+          const output =
+            exponent === 0
+              ? `${numberOfBytes} bytes`
+              : `${approx.toFixed(3)} ${
+                  units[exponent]
+                } (${numberOfBytes} bytes)`;
+
+          document.getElementById("fileNum").textContent =
+            uploadInput.files.length;
+          document.getElementById("fileSize").textContent = output;
+        },
+        false,
+      );
+    </script>
+  </body>
+</html>
